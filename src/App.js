@@ -19,6 +19,26 @@ function App() {
         fileterNotes();
     }
 
+    const handleArchiveNote = (noteId) => {
+        console.log("Archive Note", noteId);
+        const index = notesState.findIndex(note => note.id === noteId); if (index !== -1) {
+            if (notesState[index].archived) {
+                notesState[index].archived = false;
+            }
+            else {
+                notesState[index].archived = true;
+            }
+
+            // notesState[index].archived = true;
+            setNotesState(notesState);
+            fileterNotes();
+        }
+    }
+
+    // const handleDeleteNote = (noteId) => {
+    //     console.log("Archive Note", noteId);
+    // }
+
     const fileterNotes = () => {
         console.log("Filter handle");
         setActiveNotes(notesState.filter(note => !note.archived));
@@ -46,7 +66,7 @@ function App() {
                     </div>
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                         {activeNotes.map(note => (
-                            <Card key={note.id} note={note} />
+                            <Card onChangeArchive={(value) => handleArchiveNote(value)} key={note.id} note={note} />
                         ))}
                     </div>
                 </div>
@@ -57,7 +77,7 @@ function App() {
                     </div>
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                         {archivedNotes.map(note => (
-                            <Card key={note.id} note={note} />
+                            <Card onChangeArchive={(value) => handleArchiveNote(value)} key={note.id} note={note} />
                         ))}
                     </div>
                 </div>

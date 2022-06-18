@@ -2,7 +2,7 @@ import React from 'react'
 
 const NoteForm = (props) => {
 
-  // console.log(props.onAddNote)
+  console.log("Handel props add ", props.onAddNote)
 
   const [id, setId] = React.useState('')
   const [title, setTitle] = React.useState('')
