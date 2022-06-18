@@ -12,15 +12,12 @@ function App() {
     const [archivedNotes, setArchivedNotes] = useState([]);
 
     const handleAddNote = (note) => {
-        console.log("Tambah Note")
         notesState.push(note);
-        console.log(notesState);
         setNotesState(notesState);
         fileterNotes();
     }
 
     const handleArchiveNote = (noteId) => {
-        console.log("Archive Note", noteId);
         const index = notesState.findIndex(note => note.id === noteId); if (index !== -1) {
             if (notesState[index].archived) {
                 notesState[index].archived = false;
@@ -29,24 +26,25 @@ function App() {
                 notesState[index].archived = true;
             }
 
-            // notesState[index].archived = true;
+            // setNotesState(notesState);
+            fileterNotes();
+        }
+    }
+
+    const handleDeleteNote = (noteId) => {
+        const index = notesState.findIndex(note => note.id === noteId); if (index !== -1) {
+            notesState.splice(index, 1);
             setNotesState(notesState);
             fileterNotes();
         }
     }
 
-    // const handleDeleteNote = (noteId) => {
-    //     console.log("Archive Note", noteId);
-    // }
-
     const fileterNotes = () => {
-        console.log("Filter handle");
         setActiveNotes(notesState.filter(note => !note.archived));
         setArchivedNotes(notesState.filter(note => note.archived));
     }
 
     useEffect(() => {
-        console.log("Render");
         fileterNotes();
     }, [notesState]);
 
@@ -66,7 +64,7 @@ function App() {
                     </div>
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                         {activeNotes.map(note => (
-                            <Card onChangeArchive={(value) => handleArchiveNote(value)} key={note.id} note={note} />
+                            <Card onChangeArchive={(value) => handleArchiveNote(value)} onDeleteNote={(value) => handleDeleteNote(value)} key={note.id} note={note} />
                         ))}
                     </div>
                 </div>
@@ -77,7 +75,7 @@ function App() {
                     </div>
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                         {archivedNotes.map(note => (
-                            <Card onChangeArchive={(value) => handleArchiveNote(value)} key={note.id} note={note} />
+                            <Card onChangeArchive={(value) => handleArchiveNote(value)} onDeleteNote={(value) => handleDeleteNote(value)} key={note.id} note={note} />
                         ))}
                     </div>
                 </div>
