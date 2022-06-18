@@ -8,6 +8,7 @@ function App() {
     const data = getData();
 
     const [notesState, setNotesState] = useState(data);
+    const [allNotes, setAllNotes] = useState(data);
     const [activeNotes, setActiveNotes] = useState([]);
     const [archivedNotes, setArchivedNotes] = useState([]);
 
@@ -40,8 +41,10 @@ function App() {
     }
 
     const hanldeSearch = (search) => {
+
+        console.log("All Notes ", allNotes);
         if (search.length > 0) {
-            const filteredNotes = notesState.filter(note => note.title.toLowerCase().includes(search.toLowerCase()));
+            const filteredNotes = allNotes.filter(note => note.title.toLowerCase().includes(search.toLowerCase()));
             setNotesState(filteredNotes);
             fileterNotes();
         }
@@ -55,6 +58,7 @@ function App() {
 
     useEffect(() => {
         fileterNotes();
+        setAllNotes(notesState);
     }, [notesState]);
 
     return (
@@ -71,26 +75,47 @@ function App() {
                     <div className="text-left flex w-full">
                         <h1 className="font-semibold text-xl mb-6">Catatan Aktif</h1>
                     </div>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                        {activeNotes.map(note => (
-                            <Card onChangeArchive={(value) => handleArchiveNote(value)} onDeleteNote={(value) => handleDeleteNote(value)} key={note.id} note={note} />
-                        ))}
-                    </div>
+                    {
+                        activeNotes.length > 0 &&
+                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 justify-start gap-4 w-full ">
+                            {
+                                activeNotes.map(note => (
+                                    <Card onChangeArchive={(value) => handleArchiveNote(value)} onDeleteNote={(value) => handleDeleteNote(value)} key={note.id} note={note} />
+                                ))
+                            }
+                        </div>
+                    }
+                    {
+                        activeNotes.length === 0 &&
+                        <div className="w-full flex justify-center">
+                            <p>Tidak ada Catatan</p>
+                        </div>
+                    }
+
                 </div>
 
                 <div className="text-left w-10/12 py-4 flex flex-col items-center">
                     <div className="text-left flex w-full">
                         <h1 className="font-semibold text-xl mb-6">Catatan Aktif</h1>
                     </div>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                        {archivedNotes.map(note => (
-                            <Card onChangeArchive={(value) => handleArchiveNote(value)} onDeleteNote={(value) => handleDeleteNote(value)} key={note.id} note={note} />
-                        ))}
-                    </div>
+                    {
+                        archivedNotes.length > 0 &&
+                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 justify-start gap-4 w-full ">
+                            {
+                                archivedNotes.map(note => (
+                                    <Card onChangeArchive={(value) => handleArchiveNote(value)} onDeleteNote={(value) => handleDeleteNote(value)} key={note.id} note={note} />
+                                ))
+                            }
+                        </div>
+                    }
+                    {
+                        archivedNotes.length === 0 &&
+                        <div className="w-full flex justify-center">
+                            <p>Tidak ada Catatan</p>
+                        </div>
+                    }
                 </div>
-
             </main>
-
         </div>
     );
 }
