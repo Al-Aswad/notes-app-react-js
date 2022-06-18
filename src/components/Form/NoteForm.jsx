@@ -6,19 +6,34 @@ const NoteForm = (props) => {
 
   const [id, setId] = React.useState('')
   const [title, setTitle] = React.useState('')
+  const [titleLength, setTitleLength] = React.useState(50)
 
   const [body, setBody] = React.useState('')
   const [archived, setArchived] = React.useState(false)
+  const [createdAt, setCreatedAt] = React.useState(new Date().toISOString())
 
 
   const handelSubmit = (e) => {
     e.preventDefault()
+    const date = new Date().toISOString()
+    console.log(date)
     setId(+new Date())
-    props.onAddNote({ id, title, body, archived })
+    setCreatedAt(new Date().toISOString())
+
+    if (title.length > 0 || body.length > 0) {
+      props.onAddNote({ id, title, body, archived, createdAt })
+    } else {
+      alert('Title atau body harus diisi')
+    }
   }
 
   const handleChangeTitle = (e) => {
-    setTitle(e.target.value)
+    if (e.target.value.length <= 50) {
+      setTitleLength(50 - e.target.value.length)
+      setTitle(e.target.value)
+    } else {
+      alert('Title is too long')
+    }
   }
 
   const handleChangeBody = (e) => {
@@ -31,7 +46,7 @@ const NoteForm = (props) => {
       <form onSubmit={handelSubmit} action="">
         <div className="flex gap-4 flex-col">
           <div className="flex flex-col items-end gap-1">
-            <span className="text-slate-400">Sisa Karakter : 50</span>
+            <span className="text-slate-400">Sisa Karakter : {titleLength}</span>
             <input className="input" value={title} onChange={handleChangeTitle} type="text" name="search" id="search" placeholder="Catatan ..." />
           </div>
           <div>
