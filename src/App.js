@@ -29,6 +29,22 @@ function App() {
           </div>
         </div>
 
+        <div className="text-left w-10/12 py-4 flex flex-col items-center">
+          <div className="text-left flex w-full">
+            <h1 className="font-semibold text-xl mb-6">Arsip</h1>
+          </div>
+          <div className="flex flex-wrap justify-between gap-4">
+            <Card />
+            <Card />
+            <Card />
+            <Card />
+            <Card />
+            <Card />
+            <Card />
+            <Card />
+          </div>
+        </div>
+
       </main>
 
     </div>
