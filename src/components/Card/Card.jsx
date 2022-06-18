@@ -3,6 +3,9 @@ import React from 'react'
 const Card = (props) => {
     const { id, title, body, createdAt } = props.note
 
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const newDate = new Date(createdAt).toLocaleDateString('en-US', options)
+
     const handelDelete = (id) => {
         props.onDeleteNote(id)
     }
@@ -15,7 +18,7 @@ const Card = (props) => {
         <div className="card p-2 w-full bg-slate-700 rounded-md flex flex-col gap-2 shadow-sm justify-between">
             <div>
                 <h4 className="font-semibold text-lg">{title}</h4>
-                <p className="text-slate-500">{createdAt}</p>
+                <p className="text-slate-500">{newDate}</p>
                 <p className="text-thin text-sm mt-2">{body}</p>
             </div>
             <div className="flex justify-between mt-4">

@@ -39,6 +39,15 @@ function App() {
         }
     }
 
+    const hanldeSearch = (search) => {
+        if (search.length > 0) {
+            const filteredNotes = notesState.filter(note => note.title.toLowerCase().includes(search.toLowerCase()));
+            setNotesState(filteredNotes);
+            fileterNotes();
+        }
+    }
+
+
     const fileterNotes = () => {
         setActiveNotes(notesState.filter(note => !note.archived));
         setArchivedNotes(notesState.filter(note => note.archived));
@@ -52,7 +61,7 @@ function App() {
         <div className="App bg-slate-900 min-h-screen w-full text-white pb-20">
 
             <header>
-                <Navbar />
+                <Navbar onSearch={(value) => { hanldeSearch(value) }} />
             </header>
 
             <main className="flex flex-col items-center mt-10 gap-4">
