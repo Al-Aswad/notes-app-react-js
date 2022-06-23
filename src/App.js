@@ -57,28 +57,33 @@ function App() {
     }
 
     useEffect(() => {
+        console.log("render");
         fileterNotes();
-        setAllNotes(notesState);
+
+        return () => {
+            console.log("unmount");
+        }
+        // setAllNotes(notesState);
     }, [notesState]);
 
     return (
-        <div className="App bg-slate-900 min-h-screen w-full text-white pb-20">
+        <div className="w-full min-h-screen pb-20 text-white App bg-slate-900">
 
             <header>
                 <Navbar onSearch={(value) => { hanldeSearch(value) }} />
             </header>
 
-            <main className="flex flex-col items-center mt-10 gap-4">
+            <main className="flex flex-col items-center gap-4 mt-10">
 
                 <NoteForm onAddNote={(value) => { handleAddNote(value) }} />
 
-                <div className="text-left w-10/12 py-4 flex flex-col items-center">
-                    <div className="text-left flex w-full">
-                        <h1 className="font-semibold text-xl mb-6">Catatan Aktif</h1>
+                <div className="flex flex-col items-center w-10/12 py-4 text-left">
+                    <div className="flex w-full text-left">
+                        <h1 className="mb-6 text-xl font-semibold">Catatan Aktif</h1>
                     </div>
                     {
                         activeNotes.length > 0 &&
-                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 justify-start gap-4 w-full ">
+                        <div className="grid justify-start w-full grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 ">
                             {
                                 activeNotes.map(note => (
                                     <Card onChangeArchive={(value) => handleArchiveNote(value)} onDeleteNote={(value) => handleDeleteNote(value)} key={note.id} note={note} />
@@ -88,20 +93,20 @@ function App() {
                     }
                     {
                         activeNotes.length === 0 &&
-                        <div className="w-full flex justify-center">
+                        <div className="flex justify-center w-full">
                             <p>Tidak ada Catatan</p>
                         </div>
                     }
 
                 </div>
 
-                <div className="text-left w-10/12 py-4 flex flex-col items-center">
-                    <div className="text-left flex w-full">
-                        <h1 className="font-semibold text-xl mb-6">Catatan Aktif</h1>
+                <div className="flex flex-col items-center w-10/12 py-4 text-left">
+                    <div className="flex w-full text-left">
+                        <h1 className="mb-6 text-xl font-semibold">Catatan Aktif</h1>
                     </div>
                     {
                         archivedNotes.length > 0 &&
-                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 justify-start gap-4 w-full ">
+                        <div className="grid justify-start w-full grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 ">
                             {
                                 archivedNotes.map(note => (
                                     <Card onChangeArchive={(value) => handleArchiveNote(value)} onDeleteNote={(value) => handleDeleteNote(value)} key={note.id} note={note} />
@@ -111,7 +116,7 @@ function App() {
                     }
                     {
                         archivedNotes.length === 0 &&
-                        <div className="w-full flex justify-center">
+                        <div className="flex justify-center w-full">
                             <p>Tidak ada Catatan</p>
                         </div>
                     }
